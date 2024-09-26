@@ -35,4 +35,16 @@ public class CourseController {
         bodyOfPage = repository.save(bodyOfPage);
         return ResponseEntity.status(HttpStatus.CREATED).body(bodyOfPage);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Course> update(@RequestBody Course bodyOfPage, @PathVariable Long id) {
+        Course courseForUpdated = new Course();
+        if (repository.findById(id).isPresent()) {
+            courseForUpdated = repository.findById(id).get();
+        }
+        courseForUpdated.setName(bodyOfPage.getName());
+        courseForUpdated.setCategory(bodyOfPage.getCategory());
+        courseForUpdated = repository.save(courseForUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(courseForUpdated);
+    }
 }
