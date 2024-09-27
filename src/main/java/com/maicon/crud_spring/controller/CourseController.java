@@ -47,4 +47,14 @@ public class CourseController {
         courseForUpdated = repository.save(courseForUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(courseForUpdated);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Course courseFromDelete = new Course();
+        if (repository.findById(id).isPresent()) {
+            courseFromDelete = repository.findById(id).get();
+        }
+        repository.delete(courseFromDelete);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
