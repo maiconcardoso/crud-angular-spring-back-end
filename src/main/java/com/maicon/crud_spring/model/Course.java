@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
@@ -17,6 +20,8 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE course SET status = 'inativo' WHERE id = ?")
+@Where(clause = "status = 'ativo'")
 public class Course implements Serializable {
 
     @Serial
@@ -38,6 +43,12 @@ public class Course implements Serializable {
     @Pattern(regexp = "back-end|front-end")
     @Column(length = 20, nullable = false)
     private String category;
+
+    @NotNull
+    @Length(max = 10)
+    @Pattern(regexp = "ativo|inativo")
+    @Column(length = 10, nullable = false)
+    private String status = "ativo";
 
 
 }
