@@ -2,6 +2,7 @@ package com.maicon.crud_spring.controller;
 
 import com.maicon.crud_spring.model.Course;
 import com.maicon.crud_spring.repository.CourseRepository;
+import com.maicon.crud_spring.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,49 +18,39 @@ import java.util.List;
 @RequestMapping("/api/courses")
 public class CourseController {
 
-    private final CourseRepository repository;
+    private final CourseService service;
 
-    public CourseController(CourseRepository repository) {
-        this.repository = repository;
+    public CourseController(CourseService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<Course> list() {
-        return repository.findAll();
+        return service.list();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive Long id) {
-        return repository.findById(id)
+        return service.findById(id)
                 .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
     public ResponseEntity<Course> create(@RequestBody @Valid Course bodyOfPage) {
-        bodyOfPage = repository.save(bodyOfPage);
+        bodyOfPage = service.create(bodyOfPage);
         return ResponseEntity.status(HttpStatus.CREATED).body(bodyOfPage);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Course> update(@RequestBody @Valid Course bodyOfPage, @PathVariable Long id) {
-        Course courseForUpdated = new Course();
-        if (repository.findById(id).isPresent()) {
-            courseForUpdated = repository.findById(id).get();
-        }
-        courseForUpdated.setName(bodyOfPage.getName());
-        courseForUpdated.setCategory(bodyOfPage.getCategory());
-        courseForUpdated = repository.save(courseForUpdated);
+        Course courseForUpdated = service.update(bodyOfPage, id);
         return ResponseEntity.status(HttpStatus.OK).body(courseForUpdated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-        Course courseFromDelete = new Course();
-        if (repository.findById(id).isPresent()) {
-            courseFromDelete = repository.findById(id).get();
-        }
-        repository.delete(courseFromDelete);
+        service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
