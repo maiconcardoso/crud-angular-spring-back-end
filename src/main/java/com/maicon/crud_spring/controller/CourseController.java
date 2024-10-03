@@ -25,32 +25,32 @@ public class CourseController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Course> list() {
         return service.list();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive Long id) {
-        return service.findById(id)
-                .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    @ResponseStatus(HttpStatus.OK)
+    public Course findById(@PathVariable @NotNull @Positive Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Course> create(@RequestBody @Valid Course bodyOfPage) {
-        bodyOfPage = service.create(bodyOfPage);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bodyOfPage);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Course create(@RequestBody @Valid Course bodyOfPage) {
+        return service.create(bodyOfPage);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> update(@RequestBody @Valid Course bodyOfPage, @PathVariable Long id) {
-        Course courseForUpdated = service.update(bodyOfPage, id);
-        return ResponseEntity.status(HttpStatus.OK).body(courseForUpdated);
+    @ResponseStatus(HttpStatus.OK)
+    public Course update(@RequestBody @Valid Course bodyOfPage, @PathVariable Long id) {
+        return service.update(bodyOfPage, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id) {
         service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

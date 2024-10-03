@@ -1,5 +1,6 @@
 package com.maicon.crud_spring.service;
 
+import com.maicon.crud_spring.exception.RecordNotFoundException;
 import com.maicon.crud_spring.model.Course;
 import com.maicon.crud_spring.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @Service
 public class CourseService {
 
-    private CourseRepository repository;
+    private final CourseRepository repository;
 
     public CourseService(CourseRepository repository) {
         this.repository = repository;
@@ -25,8 +26,8 @@ public class CourseService {
         return repository.findAll();
     }
 
-    public Optional<Course> findById(@Valid Long id) {
-        return repository.findById(id);
+    public Course findById(@Valid Long id) {
+        return repository.findById(id).orElseThrow( () -> new RecordNotFoundException(id));
     }
 
     public Course create(@Valid Course record) {
@@ -34,20 +35,14 @@ public class CourseService {
     }
 
     public Course update(@Valid Course bodyOfPage, Long id) {
-        Optional<Course> courseForUpdated = findById(id);
-        if (courseForUpdated.isPresent()) {
-            courseForUpdated.get().setName(bodyOfPage.getName());
-            courseForUpdated.get().setCategory(bodyOfPage.getCategory());
-            return this.create(courseForUpdated.get());
-        }
-        return null;
+        Course courseForUpdated = findById(id);
+        courseForUpdated.setName(bodyOfPage.getName());
+        courseForUpdated.setCategory(bodyOfPage.getCategory());
+        return this.create(courseForUpdated);
+
     }
 
     public void delete(@Valid @Positive @NotNull Long id) {
-        Optional<Course> courseForDeleted = findById(id);
-        if (courseForDeleted.isPresent()) {
-            repository.deleteById(id);
-        }
+          repository.delete(findById(id));
     }
-
 }
