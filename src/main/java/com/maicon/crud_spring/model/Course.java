@@ -45,7 +45,7 @@ public class Course implements Serializable {
     private String category;
 
     @NotNull
-    @Length(max = 10)
+    @Length(max = 15)
     @Pattern(regexp = "ativo|inativo")
     @Column(length = 10, nullable = false)
     private String status = "ativo";
