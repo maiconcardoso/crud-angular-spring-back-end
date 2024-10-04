@@ -1,6 +1,6 @@
 package com.maicon.crud_spring.controller;
 
-import com.maicon.crud_spring.model.Course;
+import com.maicon.crud_spring.dto.CourseDto;
 import com.maicon.crud_spring.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,25 +24,25 @@ public class CourseController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Course> list() {
+    public List<CourseDto> list() {
         return service.list();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Course findById(@PathVariable @NotNull @Positive Long id) {
+    public CourseDto findById(@PathVariable @NotNull @Positive Long id) {
         return service.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Course create(@RequestBody @Valid Course bodyOfPage) {
+    public CourseDto create(@RequestBody @Valid CourseDto bodyOfPage) {
         return service.create(bodyOfPage);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Course update(@RequestBody @Valid Course bodyOfPage, @PathVariable Long id) {
+    public CourseDto update(@RequestBody @Valid CourseDto bodyOfPage, @PathVariable Long id) {
         return service.update(bodyOfPage, id);
     }
 
