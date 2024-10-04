@@ -2,6 +2,7 @@ package com.maicon.crud_spring.service;
 
 import com.maicon.crud_spring.dto.CourseDto;
 import com.maicon.crud_spring.dto.mapper.CourseMapper;
+import com.maicon.crud_spring.enums.Category;
 import com.maicon.crud_spring.exception.RecordNotFoundException;
 import com.maicon.crud_spring.model.Course;
 import com.maicon.crud_spring.repository.CourseRepository;
@@ -42,7 +43,7 @@ public class CourseService {
     public CourseDto update(@Valid CourseDto bodyOfPage, Long id) {
         return repository.findById(id).map(recordFound -> {
             recordFound.setName(bodyOfPage.name());
-            recordFound.setCategory(bodyOfPage.category());
+            recordFound.setCategory(Category.FRONT_END);
             return mapper.toDto(repository.save(recordFound));
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }

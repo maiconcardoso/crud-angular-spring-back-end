@@ -1,5 +1,6 @@
 package com.maicon.crud_spring;
 
+import com.maicon.crud_spring.enums.Category;
 import com.maicon.crud_spring.model.Course;
 import com.maicon.crud_spring.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class CrudSpringApplication implements CommandLineRunner {
 
 		Course course = new Course();
 		course.setName("Angular com Spring");
-		course.setCategory("front-end");
+		course.setCategory(Category.FRONT_END);
 
 		courseRepository.save(course);
 	}
