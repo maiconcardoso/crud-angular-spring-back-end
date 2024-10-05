@@ -1,17 +1,12 @@
 package com.maicon.crud_spring.enums;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public enum Status {
 
-public enum Category {
-
-    @JsonProperty("back-end")
-    BACK_END("back-end"),
-    @JsonProperty("front-end")
-    FRONT_END("front-end");
+    ACTIVE("ativo"), INACTIVE("inativo");
 
     private String value;
 
-    private Category(String value) {
+    private Status(String value) {
         this.value = value;
     }
 

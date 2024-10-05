@@ -2,7 +2,9 @@ package com.maicon.crud_spring.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maicon.crud_spring.enums.Category;
+import com.maicon.crud_spring.enums.Status;
 import com.maicon.crud_spring.enums.converters.CategoryConverter;
+import com.maicon.crud_spring.enums.converters.StatusConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,10 +47,9 @@ public class Course implements Serializable {
     private Category category;
 
     @NotNull
-    @Length(max = 15)
-    @Pattern(regexp = "ativo|inativo")
     @Column(length = 10, nullable = false)
-    private String status = "ativo";
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
 
 
 }

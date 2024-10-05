@@ -43,7 +43,7 @@ public class CourseService {
     public CourseDto update(@Valid CourseDto bodyOfPage, Long id) {
         return repository.findById(id).map(recordFound -> {
             recordFound.setName(bodyOfPage.name());
-            recordFound.setCategory(Category.FRONT_END);
+            recordFound.setCategory(mapper.convertCategoryValue(bodyOfPage.category()));
             return mapper.toDto(repository.save(recordFound));
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
