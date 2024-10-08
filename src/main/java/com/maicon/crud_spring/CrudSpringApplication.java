@@ -32,6 +32,7 @@ public class CrudSpringApplication implements CommandLineRunner {
 		course.setCategory(Category.FRONT_END);
 
 		course.getLessons().add(new Lesson(null, "Introdução", "watch?v=qJnjz8FIs6Q", course));
+		course.getLessons().add(new Lesson(null, "Angular", "watch?v=qJnjz8FIddQ", course));
 
 		courseRepository.save(course);
 	}
