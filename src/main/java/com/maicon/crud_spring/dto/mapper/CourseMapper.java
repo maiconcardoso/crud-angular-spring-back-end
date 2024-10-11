@@ -5,6 +5,7 @@ import com.maicon.crud_spring.dto.LessonDto;
 import com.maicon.crud_spring.enums.Category;
 import com.maicon.crud_spring.enums.Status;
 import com.maicon.crud_spring.model.Course;
+import com.maicon.crud_spring.model.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,7 +32,16 @@ public class CourseMapper {
         }
         course.setName(courseDto.name());
         course.setCategory(convertCategoryValue(courseDto.category()));
-        course.setStatus(Status.ACTIVE);
+
+        List<Lesson> lessons = courseDto.lessons().stream().map(lessonDto -> {
+          var lesson = new Lesson();
+          lesson.setName(lessonDto.name());
+          lesson.setYoutubeUrl(lessonDto.youtubeUrl());
+          lesson.setCourse(course);
+          return lesson;
+        }).collect(Collectors.toList());
+
+        course.setLessons(lessons);
         return course;
     }
 

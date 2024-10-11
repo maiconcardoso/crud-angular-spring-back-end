@@ -42,8 +42,11 @@ public class CourseService {
 
     public CourseDto update(@Valid CourseDto bodyOfPage, Long id) {
         return repository.findById(id).map(recordFound -> {
+            Course course = mapper.toEntity(bodyOfPage);
             recordFound.setName(bodyOfPage.name());
             recordFound.setCategory(mapper.convertCategoryValue(bodyOfPage.category()));
+            recordFound.getLessons().clear();
+            course.getLessons().forEach(lesson -> recordFound.getLessons().add(lesson));
             return mapper.toDto(repository.save(recordFound));
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }

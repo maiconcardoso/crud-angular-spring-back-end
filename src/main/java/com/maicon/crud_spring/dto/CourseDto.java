@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record CourseDto (
-        Long id,
+        @JsonProperty("_id") Long id,
         String name, String category, List<LessonDto> lessons) {
 }
