@@ -28,7 +28,7 @@ public class Lesson {
     @Column(length = 20, nullable = false)
     @NotNull
     @NotBlank
-    @Length(min = 10, max = 12)
+    @Length(min = 10, max = 22)
     private String youtubeUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
